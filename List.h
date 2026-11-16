@@ -40,7 +40,7 @@ List *list_end(List *list)
 {
 	List *end = list;
 
-	while (end->prev != NULL)
+	while (end->next != NULL)
 		end = end->next;
 
 	return end;
@@ -55,9 +55,9 @@ void list_concat(List *list1, List *list2)
 	list_link(list1end, list2start);
 }
 
-void list_apply(List *list, List *predicate(List *))
+void list_apply(List *list, void predicate(List *))
 {
-	List *temp = list;
+	List *temp = list_start(list);
 
 	while (temp != NULL)
 	{
@@ -79,6 +79,7 @@ void list_free(List *list)
 	}
 
 	point_free(start->value);
+	memset(start, 0, sizeof(*start));
 	free(start);
 }
 
